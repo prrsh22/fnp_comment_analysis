@@ -1,4 +1,4 @@
-# yt_comment_analysis
+# fnp_comment_analysis
 2020-2 미래뉴스실습2 팀프로젝트에서 진행한 네이버 뉴스, 유튜브 댓글 분석
 
 * 대상 기사(2007-2010)
