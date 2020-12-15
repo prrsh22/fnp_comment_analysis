@@ -3,7 +3,7 @@ import time
 import openpyxl
 
 try:
-    wb = openpyxl.load_workbook('data/yt_comments.xlsx')
+    wb = openpyxl.load_workbook('저장할 파일명')
     sheet = wb.active
 except:
     wb = openpyxl.Workbook()
@@ -13,7 +13,7 @@ except:
 driver = webdriver.Chrome('chromedriver.exe')
 
 #댓글 수집할 영상 urls
-urls = ['수집할 영상 url들']
+urls = []
 
 for url in urls:
     driver.get(url)
@@ -28,7 +28,7 @@ for url in urls:
     cc_index = 0
     n_of_comments_collected = 0
     
-    # 아직 수집하지 않은 새 댓글 나타날 때까지 스크롤 (10번 시도해도 안 되면 
+    # 아직 수집하지 않은 새 댓글 나타날 때까지 스크롤 (10번 시도해도 안 되면)
     while 1:
         scrollFailed = 0
         
@@ -52,9 +52,12 @@ for url in urls:
 
         # 수집, 기록
         for comment in comments[index:]:
-            c_author = comment.find_element_by_css_selector('a#author-text span').text
-            #일반 사용자 말고 채널이 댓글 달았을 때 다르게 수집해야 함(추후 수정)
-            
+            # 채널이 댓글 단 경우 다른 선택자
+            try:
+                c_author = comment.find_element_by_css_selector('yt-formatted-string.ytd-channel-name').text
+            except:
+                c_author = comment.find_element_by_css_selector('a#author-text span').text
+
             #긴 댓글은 자세히 보기 눌러서 내용 수집
             try:
                 comment.find_element_by_css_selector('paper-button#more').click()
@@ -80,5 +83,5 @@ for url in urls:
         index = n_of_comments_collected
 
 
-wb.save('data/yt_comments.xlsx')
+wb.save('저장할 파일명')
 

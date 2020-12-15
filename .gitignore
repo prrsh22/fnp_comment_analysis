@@ -1,3 +1,5 @@
 /data
 chromedriver.exe
 /.ipynb_checkpoints
+.idea/
+debug.log
